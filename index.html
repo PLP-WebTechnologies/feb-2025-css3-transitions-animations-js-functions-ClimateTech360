@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating Page on Load</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .content {
+            text-align: center;
+            transform-origin: center;
+            animation: rotatePage 2s ease-out forwards;
+        }
+
+        @keyframes rotatePage {
+            0% {
+                transform: rotate(0deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: rotate(360deg);
+                opacity: 1;
+            }
+        }
+
+        #animateButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #6200ea;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        #animateButton:hover {
+            background-color: #3700b3;
+        }
+
+        #elementToAnimate {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #03dac6;
+            color: white;
+            border-radius: 5px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        #elementToAnimate.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="content">
+        <button id="animateButton">Toggle Animation</button>
+        <div id="elementToAnimate">Welcome to the Rotating Page!</div>
+    </div>
+
+    <script>
+
+        function checkAnimationStatus() {
+            const hasAnimated = localStorage.getItem('hasAnimated');
+            const element = document.getElementById('elementToAnimate');
+            if (!hasAnimated) {
+                element.classList.add('animated');
+                localStorage.setItem('hasAnimated', 'true');
+            }
+        }
+
+        document.getElementById('animateButton').addEventListener('click', () => {
+            const element = document.getElementById('elementToAnimate');
+            element.classList.toggle('animated');
+        });
+
+        window.onload = checkAnimationStatus;
+    </script>
+
+</body>
+
+</html>
